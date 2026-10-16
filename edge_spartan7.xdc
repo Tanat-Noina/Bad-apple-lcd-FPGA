@@ -1,0 +1,21 @@
+# EDGE Spartan 7: official mapping + user's prior working LCD mapping.
+set_property -dict { PACKAGE_PIN H11 IOSTANDARD LVCMOS33 } [get_ports clk]
+create_clock -name sys_clk -period 20.000 [get_ports clk]
+set_property -dict { PACKAGE_PIN J12 IOSTANDARD LVCMOS33 } [get_ports rst]
+# FPGA RX (FTDI RXD net naming in official board XDC): G1.
+set_property -dict { PACKAGE_PIN G1 IOSTANDARD LVCMOS33 } [get_ports uart_rx]
+set_property -dict { PACKAGE_PIN M4 IOSTANDARD LVCMOS33 } [get_ports {lcd_data[0]}]
+set_property -dict { PACKAGE_PIN L5 IOSTANDARD LVCMOS33 } [get_ports {lcd_data[1]}]
+set_property -dict { PACKAGE_PIN P11 IOSTANDARD LVCMOS33 } [get_ports {lcd_data[2]}]
+set_property -dict { PACKAGE_PIN N11 IOSTANDARD LVCMOS33 } [get_ports {lcd_data[3]}]
+set_property -dict { PACKAGE_PIN P13 IOSTANDARD LVCMOS33 } [get_ports {lcd_data[4]}]
+set_property -dict { PACKAGE_PIN M14 IOSTANDARD LVCMOS33 } [get_ports {lcd_data[5]}]
+set_property -dict { PACKAGE_PIN M12 IOSTANDARD LVCMOS33 } [get_ports {lcd_data[6]}]
+set_property -dict { PACKAGE_PIN K12 IOSTANDARD LVCMOS33 } [get_ports {lcd_data[7]}]
+set_property -dict { PACKAGE_PIN M5 IOSTANDARD LVCMOS33 } [get_ports lcd_rs]
+set_property -dict { PACKAGE_PIN P5 IOSTANDARD LVCMOS33 } [get_ports lcd_e]
+# RW is physically grounded on this board. No RW port required.
+set_false_path -from [get_ports uart_rx] -to [get_cells -hier -filter {NAME =~ *rx_meta_reg}]
+set_false_path -from [get_ports rst] -to [get_cells -hier -filter {NAME =~ *rst_meta_reg}]
+set_property CFGBVS VCCO [current_design]
+set_property CONFIG_VOLTAGE 3.3 [current_design]
